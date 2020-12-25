@@ -1,0 +1,144 @@
+---
+title: "Week_2"
+author: "Ipek Bensu"
+date: "12/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# To characterize local texture, we need to:  
+
+- Extract building information  
+- Compute building-specific drag coefficients  
+
+## Extracting building information  
+
+We need to:  
+
+- Extract latitude, longitude, footprint area  
+- Assign census tract (by spatial join)  
+- Export attribute table as .csv  
+- Convert .csv to .mat  
+
+### To extract latitude, longitude, footprint area:  
+
+We'll be using:  
+
+- Building footprints from Microsoft: [documentation](https://github.com/microsoft/USBuildingFootprints)  
+- You can find the .geojson files: [here](https://www.dropbox.com/s/u37ke3lrcs7ovn4/Building_footprints.zip?dl=0)  
+
+Step 1: Starting QGIS  
+
+- Start QGIS  
+
+Step 2: Creating .geojson layer  
+
+- "Layer" > "Add layer" > "Add vector layer"  
+- Fill in "Source type": "HTTP(S), cloud, etc."  
+- Fill in "Protocol": "GeoJSON"  
+- Fill in "URI": Copy-paste path from File Explorer (e.g., C:&#92;...&#92;Building_footprints&#92;Florida.geojson)  
+- "Add" and "close" (might take a moment)  
+
+Step 3: Extracting latitude  
+
+- "Open field calculator" (abacus icon)  
+- "Create new field"  
+- Fill in "Output field name": lat (important later on)  
+- Fill in "Output field type": "Decimal number (real)"  
+- Fill in "Output field length": 10 (default)  
+- Fill in "Precision": 8 (important later on)  
+- Fill in "Expression": $x  
+- "Okay" (might take a moment)  
+
+Step 4: Extracting longitude  
+
+- "Open field calculator"  
+- "Create new field"  
+- Fill in "Output field name": lon (important later on)  
+- Fill in "Output field type": "Decimal number (real)"  
+- Fill in "Output field length": 10 (default)  
+- Fill in "Precision": 8 (important later on)  
+- Fill in "Expression": $y  
+- "Okay" (might take a moment)  
+
+Step 5: Extracting footprint area  
+
+- "Open field calculator"  
+- "Create new field"  
+- Fill in "Output field name": area (important later on)  
+- Fill in "Output field type": "Decimal number (real)"  
+- Fill in "Output field length": 10 (default)  
+- Fill in "Precision": 8 (important later on)  
+- Fill in "Expression": $area   
+- "Okay" (might take a moment)  
+
+### To assign census tract (by spatial join):  
+
+We'll be using:  
+
+- Cartographic boundary files from US Census Bureau: [documentation](https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html)  
+- You can find the .shp files: [here](https://www.dropbox.com/s/pd6gizwcswfcivr/Census_tracts.zip?dl=0)  
+
+Step 6: Converting .geojson to .csv  
+
+- "Layers" (lower LHS) > Right-click on .geojson layer  
+- "Export" > "Export layer as"  
+- Fill in "Format": "Comma separated value (CSV)"  
+- Fill in "File name": Select path from File Explorer (e.g., C:&#92;...&#92;Building_footprints&#92;Florida.csv)  
+- "Okay" (might take a moment)  
+- Remove .geojson layer (it's easier to work with delimited layers)  
+- "Layer" > "Add layer" > "Add delimited text layer" *  
+- Fill in "File name": Select path from File Explorer *  
+- Fill in "x field": lon *  
+- Fill in "y field": lat *  
+- "Add" and "close" *  
+- *These steps might be unnecessary.  
+
+Step 7: Creating .shp layer  
+
+- Look up FIPS code (e.g., for Florida it's 12)  
+- From File Explorer, drag and drop census tract .shp file  
+
+Step 8: Assigning census tract (by spatial join)  
+
+- "Vector" > "Data management tools" > "Join attributes by location"  
+- Fill in "Input layer": Select .csv layer  
+- Fill in "Join layer": Select .shp layer  
+- Fill in "Geometric predicate": "Intersects" (default)  
+- Fill in "Join type": "One-to-one"  
+- "Run" and "Close" (might take a moment)  
+
+### To export attribute table as .csv:  
+
+Step 9: Exporting .csv layer  
+
+- "Layers" > Right-click on .csv layer  
+- "Export" > "Export layer as"  
+- Fill in "Format": "Comma separated value (CSV)"  
+- Fill in "File name": Select path from File Explorer  
+- "Okay" (might take a moment)  
+
+**Note that Steps 1-9 could be automated using Python! (How?)**
+
+### To convert .csv to .mat:  
+
+Step 10: Starting MATLAB  
+
+- Start MATLAB  
+
+Step 11: Converting .csv to .mat  
+
+- "Import data"  
+- Fill in "File name": Select path from File Explorer  
+- "Open"  
+- "Import selection" and close window  
+- "Workspace" (lower LHS) > Right-clack on table  
+- "Save as"
+- Fill in "File name": Select path from File Explorer  
+- Fill in "Save type as": "MAT-files (*.mat)"  
+- "Save"  
+
+## Computing building-specific drag coefficients  
