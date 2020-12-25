@@ -1,0 +1,28 @@
+---
+title: "Week_1"
+author: "Ipek Bensu"
+date: "12/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### What is texture? (1-2 talking points)  
+
+- You can watch: [this](https://www.youtube.com/watch?v=lh6EslaN49U)  
+- You can read: [this](https://news.mit.edu/2020/discerning-texture-of-urban-resilience-0330)  
+- And: [this](https://cshub.mit.edu/news/topic-summary-city-texture-and-urban-resilience)  
+
+### What are some concerns surrounding hurricane resilience? (1-2 talking points)  
+
+- CSHub research: [video](https://www.youtube.com/watch?v=wD9dcRm7fgw)  
+- NIBS' Mitigation Saves: [report](https://www.nibs.org/page/mitigationsaves)  
+- IBHS' Rating the States: [report](https://ibhs.org/public-policy/rating-the-states/)  
+
+### Prepare for the upcoming weeks:  
+
+- Download QGIS: [here](https://qgis.org/en/site/forusers/download.html)  
+- Download MATLAB: [here](https://ist.mit.edu/matlab/all)  
+- Download Tableau: [here](https://ist.mit.edu/tableau/desktop/academic)  
