@@ -518,6 +518,7 @@ summary {
 </li>
 <li>From File Explorer, drag and drop census tract .shp file</li>
 </ul>
+<p><strong>You can use index.m to look up FIPS code.</strong></p>
 <p>Step 8: Assigning census tract (by spatial join)</p>
 <ul>
 <li>“Vector” &gt; “Data management tools” &gt; “Join attributes by location”<br />
@@ -545,6 +546,8 @@ summary {
 </li>
 <li>Fill in “File name”: Select path from File Explorer<br />
 </li>
+<li><strong>For ease, use the same naming convention as Microsoft.</strong><br />
+</li>
 <li>“Okay” (might take a moment)</li>
 </ul>
 <p><strong>Note that Steps 1-9 could be automated using Python! (How?)</strong></p>
@@ -565,10 +568,15 @@ summary {
 </li>
 <li>“Import selection” and close window<br />
 </li>
-<li>“Workspace” (lower LHS) &gt; Right-clack on table<br />
+<li>“Workspace” (lower LHS) &gt; Right-click on table &gt; “Rename”<br />
 </li>
-<li>“Save as”</li>
+<li><strong>Call “buildings” to keep generic.</strong><br />
+</li>
+<li>“Workspace” &gt; Right-click on table &gt; “Save as”<br />
+</li>
 <li>Fill in “File name”: Select path from File Explorer<br />
+</li>
+<li><strong>For ease, use the same naming convention as Microsoft.</strong><br />
 </li>
 <li>Fill in “Save type as”: &quot;MAT-files (*.mat)&quot;<br />
 </li>
@@ -578,6 +586,37 @@ summary {
 </div>
 <div id="computing-building-specific-drag-coefficients" class="section level2">
 <h2>Computing building-specific drag coefficients</h2>
+<p>Step 12: Navigating to correct working directory</p>
+<ul>
+<li>Download code: “city_texture_cd_model.mat”, “run.mat”, “index.m”<br />
+</li>
+<li>From “Current folder” (upper LHS), copy-past your .mat files to the folder with “city_texture_cd_model.mat”</li>
+</ul>
+<p>Step 13: Updating the code</p>
+<ul>
+<li>“Current folder” (upper LHS) &gt; “index.m” (double-click to open)<br />
+</li>
+<li>Use CTRL+F to find “Mini_UROP” comments<br />
+</li>
+<li>Update the code if necessary<br />
+</li>
+<li>“Current folder” (upper LHS) &gt; “run.mat” (double-click to open)<br />
+</li>
+<li>Use CTRL+F to find “Mini_UROP” comments<br />
+</li>
+<li>Update the code if necessary</li>
+</ul>
+<p>Step 14: Running the code</p>
+<ul>
+<li>In “Command window” (bottom of page), run “index.m”</li>
+</ul>
+<p>Step 15: Sharing the results</p>
+<ul>
+<li><strong>You’ll have one .mat and one .csv file for drag coefficients in each state.</strong><br />
+</li>
+<li>Upload to Dropbox :)</li>
+</ul>
+<p><strong>I’ve never run this code before, so let me know if you get error messages!</strong></p>
 </div>
 </div>
 
