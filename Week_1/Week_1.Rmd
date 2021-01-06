@@ -18,8 +18,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ### What are some concerns surrounding hurricane resilience? (1-2 talking points)  
 
 - CSHub research: [video](https://www.youtube.com/watch?v=wD9dcRm7fgw)  
-- NIBS' Mitigation Saves: [report](https://www.nibs.org/page/mitigationsaves)  
-- IBHS' Rating the States: [report](https://ibhs.org/public-policy/rating-the-states/)  
+- NIBS' Mitigation Saves: [report](https://www.nibs.org/page/mitigationsaves) (only intro)  
+- IBHS' Rating the States: [report](https://ibhs.org/public-policy/rating-the-states/) (only intro)  
 
 ### Prepare for the upcoming weeks:  
 
