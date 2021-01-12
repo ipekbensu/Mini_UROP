@@ -50,7 +50,7 @@ Step 3: Extracting latitude
 - Fill in "Output field type": "Decimal number (real)"  
 - Fill in "Output field length": 10 (default)  
 - Fill in "Precision": 8 (important later on)  
-- Fill in "Expression": x($geometry)  
+- Fill in "Expression": y($geometry)  
 - "Okay" (might take a moment)  
 
 Step 4: Extracting longitude  
@@ -61,7 +61,7 @@ Step 4: Extracting longitude
 - Fill in "Output field type": "Decimal number (real)"  
 - Fill in "Output field length": 10 (default)  
 - Fill in "Precision": 8 (important later on)  
-- Fill in "Expression": y($geometry)  
+- Fill in "Expression": x($geometry)  
 - "Okay" (might take a moment)  
 
 Step 5: Extracting footprint area  
