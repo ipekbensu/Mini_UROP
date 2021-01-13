@@ -21,7 +21,7 @@ tract = buildings.GEOID;
 
 buildings_Cd = array2table(horzcat(tract,lat,lon,area,Cd),...
     'VariableNames',{'tract','lat','lon','area','Cd'});
-SaveName_mat = srtcat(StateAbbrev,'_Cd.mat');
+SaveName_mat = strcat(StateAbbrev,'_Cd.mat');
 SaveName_csv = strcat(StateAbbrev,'_Cd.csv');
 save(SaveName_mat,'buildings_Cd');
 writetable(buildings_Cd,SaveName_csv);
