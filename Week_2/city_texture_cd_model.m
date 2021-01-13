@@ -117,7 +117,7 @@ for h = 1:size(avail, 1)
                     L(timer) = sqrt(area_ref);
                     damage(timer) = 1;
                     P(timer) = (1)/(pi()*rcut^2);
-                    L(timer) = density_length;
+                    %L(timer) = density_length;
                     Cn(timer) = 0;
                 end
                 counter = counter - 1;
