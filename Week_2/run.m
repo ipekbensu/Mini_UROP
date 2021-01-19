@@ -1,9 +1,6 @@
 function [] = run(StateAbbrev,buildings)
 
 % assign building information
-% Mini_UROP: this is why it's important to use standard labels in QGIS!
-% Mini_UROP: 'lat', 'lon', 'area' assigned by us
-% Mini_UROP: 'GEOID' from census bureau files
 % -
 
 lat = buildings.lat;

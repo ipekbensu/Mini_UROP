@@ -1,8 +1,4 @@
-% Mini_UROP: Check for spelling mistakes!
-% Mini_UROP: Skip Florida, run only your states!
-% Mini_UROP: note that "for i=1:19" runs each state
-
-for i=1:19
+for i=1:22
     % assign state information
     % -
     
@@ -19,6 +15,7 @@ for i=1:19
         StateAbbrev = 'DE';
         StateFIPS = '10';
     elseif i==4
+        % update loss model to include
         StateName = 'DistrictofColumbia';
         StateAbbrev = 'DC';
         StateFIPS = '11';
@@ -67,21 +64,42 @@ for i=1:19
         StateAbbrev = 'NC';
         StateFIPS = '37';
     elseif i==16
+        % not included in hurricane-prone states
+        % included for visualization
+        % update loss model to include
+        StateName = 'Pennsylvania';
+        StateAbbrev = 'PA';
+        StateFIPS = '42';
+    elseif i==17
         StateName = 'RhodeIsland';
         StateAbbrev = 'RI';
         StateFIPS = '44';
-    elseif i==17
+    elseif i==18
         StateName = 'SouthCarolina';
         StateAbbrev = 'SC';
         StateFIPS = '45';
-    elseif i==18
+    elseif i==19
         StateName = 'Texas';
         StateAbbrev = 'TX';
         StateFIPS = '48';
-    elseif i==19
+    elseif i==20
+        % not included in hurricane-prone states
+        % included for visualization
+        % update loss model to include
+        StateName = 'Vermont';
+        StateAbbrev = 'VT';
+        StateFIPS = '50';
+    elseif i==21
         StateName = 'Virginia';
         StateAbbrev = 'VA';
         StateFIPS = '51';
+    elseif i==22
+        % not included in hurricane-prone states
+        % included for visualization
+        % update loss model to include
+        StateName = 'WestVirginia';
+        StateAbbrev = 'WV';
+        StateFIPS = '54';
     end
     
     % compute and save building-specific drag coefficients
