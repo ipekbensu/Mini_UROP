@@ -9,3 +9,41 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# To discuss the economic implications of texture, we need to:  
+
+- Collect necessary information  
+- Compute building-specific expected annual losses (EAL)  
+
+## Collecting necessary information  
+
+In one folder collect:  
+
+- Your .mat files from last week  
+- Files in Hazus/Hazus_mat  
+- Files in ACS_DP03/ACS_DP03_mat  
+- Files in ACS_DP04/ACS_DP04_mat  
+- Files in PUMS/PUMS_mat  
+- Files in Census_tracts_neighbors  
+- Entire code under Week_3  
+
+## Computing building-specific expected annual losses (EAL)  
+
+Step 1: Running the code  
+
+- In "Command window" (bottom of page), run "index.m"  
+- **Similar to last week, you'll need to adjust the "for" loop for your study area.**  
+
+Step 2: Sharing the results  
+
+- **You'll have 12 .mat and 12 .csv files for EALs in each state.**  
+- **4 of each are 'EAL' (in $1000 per household).**  
+- **4 are 'EAL_PerValue' (normalized by home value).**  
+- **4 are 'EAL_PerInc' (normalized by household income).**  
+- **6 are 'Case0' (for an unmitigated building stock) and 6 are 'Case1' (for a mitigated building stock).**  
+- **Also, 6 are 'Hazus' (based on a framework developed by FEMA) and 6 are 'New' (based on an updated framework).**  
+- Upload to Dropbox :)  
+
+Additional reading on Hazus:  
+
+- On its terrain and wind modeling: [this](https://ascelibrary.org/doi/full/10.1061/%28ASCE%291527-6988%282006%297%3A2%2882%29)  
+- On its loss modeling: [this](https://ascelibrary.org/doi/full/10.1061/%28ASCE%291527-6988%282006%297%3A2%2894%29)  
