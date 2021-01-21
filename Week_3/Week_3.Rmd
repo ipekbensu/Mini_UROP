@@ -20,10 +20,11 @@ In one folder collect:
 
 - Your .mat files from last week  
 - Files in Hazus/Hazus_mat  
+- **Hazus data currently missing for PA, VT and WV.**  
 - Files in ACS_DP03/ACS_DP03_mat  
 - Files in ACS_DP04/ACS_DP04_mat  
 - Files in PUMS/PUMS_mat  
-- Files in Census_tracts_neighbors  
+- Files in Census_tracts_neighbors/mat  
 - Entire code under Week_3  
 
 ## Computing building-specific expected annual losses (EAL)  
