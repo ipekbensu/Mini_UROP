@@ -4,6 +4,7 @@ function [EAL, PerValue_EAL, PerInc_EAL] = compute_EAL(tract, Cd, StateAbbrev, S
 % this data is on the scale of census tracts
 % -
 
+disp('Loading Census Bureau data...')
 ACS_DP03_data = strcat('ACS_DP03_',StateFIPS,'.mat');
 load(ACS_DP03_data);
 tracts = ACS_DP03_data.GEOid2;
@@ -13,6 +14,7 @@ tracts = ACS_DP03_data.GEOid2;
 % however, some census tracts can be missing
 % -
 
+disp('Loading Hazus data...')
 surface_roughness = strcat(lower(StateAbbrev),'_surface_roughness.mat');
 load(surface_roughness);
 peak_gusts = strcat(lower(StateAbbrev),'_peak_gusts.mat');
@@ -25,12 +27,14 @@ exposure_count = strcat(lower(StateAbbrev),'_exposure_count.mat');
 load(exposure_count);
 
 % units: m
+disp('Running NN for surface roughness...')
 surface_roughness_Hazus = surface_roughness.SURFACEROUGHNESS;
 tracts_Hazus = surface_roughness.Tract;
 [tracts_surface_roughness] = NN(StateAbbrev, tracts, tracts_Hazus, surface_roughness_Hazus);
 
 % columns (7): 10, 20, 50, 100, 200, 500, 1000 (yr return period)
 % units: mph
+disp('Running NN for peak gusts...')
 peak_gusts_Hazus = table2array(peak_gusts(:,12:18));
 tracts_Hazus = peak_gusts.Tract;
 [tracts_peak_gusts] = NN(StateAbbrev, tracts, tracts_Hazus, peak_gusts_Hazus);
@@ -38,18 +42,21 @@ tracts_Hazus = peak_gusts.Tract;
 
 % % columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
 % % units: 1000 SF
+% disp('Running NN for square footage...')
 % exposure_1000SF_Hazus = table2array(exposure_1000SF(:,2:9));
 % tracts_Hazus = exposure_1000SF.CensusTract;
 % [tracts_exposure_1000SF] = NN(StateAbbrev, tracts, tracts_Hazus, exposure_1000SF_Hazus);
 
 % columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
 % units: 1000 USD
+disp('Running NN for property value...')
 exposure_1000USD_Hazus = table2array(exposure_1000USD(:,2:9));
 tracts_Hazus = exposure_1000USD.CensusTract;
 [tracts_exposure_1000USD] = NN(StateAbbrev, tracts, tracts_Hazus, exposure_1000USD_Hazus);
 
 % columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
 % units: bldg or fractions
+disp('Running NN for building types...')
 exposure_count_Hazus = table2array(exposure_count(:,2:9));
 tracts_Hazus = exposure_count.CensusTract;
 [tracts_exposure_count] = NN(StateAbbrev, tracts, tracts_Hazus, exposure_count_Hazus);
@@ -76,6 +83,7 @@ tracts_avg_1000USD = tracts_exposure_1000USD./exposure;
 % columns (41): 50, 55,... 250 mph (peak gust)
 % pages (5): 0, 0.03, 0.35, 0.7, 1 m (roughness length)
 % units: fractions
+disp('Creating building functions...')
 [BldgFunc_RES_Case0, BldgFunc_RES_Case1] = compute_BldgFunc_RES(StateAbbrev, RegionAbbrev);
 
 % estimate HsngScheme_count, HsngScheme_p, HsngScheme_pi
@@ -85,6 +93,7 @@ tracts_avg_1000USD = tracts_exposure_1000USD./exposure;
 % columns (10): 1, 2,... 10 (HINCP bin)
 % units: hsng or fractions
 % pages represent different census tracts
+disp('Running IPF for housing schemes...')
 [HsngScheme_count, HsngScheme_p, HsngScheme_pi] = create_HsngScheme(StateAbbrev, StateFIPS);
 
 % estimate BldgScheme_count, BldgScheme_p, HsngInc_avg_1000USD
@@ -92,6 +101,7 @@ tracts_avg_1000USD = tracts_exposure_1000USD./exposure;
 
 % columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
 % units: bldg or fractions
+disp('Creating building schemes...')
 BldgScheme_count = zeros(size(tracts,1),size(HsngScheme_count,1));
 BldgScheme_p = zeros(size(tracts,1),size(HsngScheme_p,1));
 
@@ -132,6 +142,7 @@ HsngInc_avg_1000USD(isnan(HsngInc_avg_1000USD)) = 0;
 % compute building-specific WSRs
 % -
 
+disp('Computing building-specific WSRs...')
 [WSRR_input] = compute_WSRR_input();
 [WSR] = CFD_Cd_compute_WSR(Cd);
 
@@ -160,6 +171,7 @@ surface_roughness_max = [0.03,0.35,0.7,1];
 % load inputs
 % -
 
+disp('Assigning census tract information to buildings...')
 bldg_WSRR = zeros(size(tract,1),size(WSRR_input,1),size(WSRR_input,2));
 bldg_surface_roughness = zeros(size(tract,1),size(tracts_surface_roughness,2));
 % bldg_peak_gusts = zeros(size(tract,1),size(tracts_peak_gusts,2));
@@ -193,6 +205,7 @@ for k=1:size(WSRR_input,2)
 end
 clear k
 
+disp('Tracts left:')
 for i=1:size(tracts,1)
     
     if (sum(tract==tracts(i))>0)
@@ -204,7 +217,7 @@ for i=1:size(tracts,1)
 
         end
         clear j
-
+        
 %         for j=1:size(tracts_peak_gusts,2)
 % 
 %             bldg_peak_gusts_j = zeros(size(tract,1),1);
@@ -268,10 +281,12 @@ for i=1:size(tracts,1)
         end
         clear j
     end
+    disp(size(tracts,1)-i)
     
 end
 clear i
 
+disp('Assigning building functions...')
 for k=1:size(BldgFunc_RES_Case0,1)
     
     for j=1:size(BldgFunc_RES_Case0,2)
@@ -302,7 +317,8 @@ clear k
 
 % columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
 % pages (6): baseline, dir_1, dir_2, dir_3, dir_4, dir_avg
-% units: fractions (AEL / value)
+% units: fractions (EAL / value)
+disp('Initializing EALs...')
 loss_RES_Case0 = zeros(size(tract,1),8,6);
 loss_RES_Case1 = zeros(size(tract,1),8,6);
 
@@ -313,6 +329,7 @@ loss_RES_Case1 = zeros(size(tract,1),8,6);
 % units: mph
 peak_gusts = ones(size(tract,1),1)*[50:5:250];
 
+disp('Computing peak gust probabilities...')
 P_baseline = wblcdf(peak_gusts+2.5,bldg_Weibull(:,1),bldg_Weibull(:,2))-wblcdf(peak_gusts-2.5,bldg_Weibull(:,1),bldg_Weibull(:,2));
 P_dir_1 = zeros(size(tract,1),41,4);
 P_dir_2 = zeros(size(tract,1),41,4);
@@ -333,6 +350,7 @@ for k=1:4
 end
 clear k
 
+disp('Computing EALs...')
 for j=1:8
     
     loss_RES_Case0(:,j,1) = sum(P_baseline.*bldg_BldgFunc_RES_Case0(:,:,j),2);
@@ -399,6 +417,7 @@ Case1_RES_New = zeros(size(tract,1),9);
 % compute Case0_RES, Case1_RES
 % -
 
+disp('Normalizing results by property value...')
 Case0_RES_Hazus(:,1:8) = loss_RES_Case0(:,:,1);
 Case1_RES_Hazus(:,1:8) = loss_RES_Case1(:,:,1);
 Case0_RES_New(:,1:8) = loss_RES_Case0(:,:,6);
@@ -423,6 +442,7 @@ Case1_RES_New(:,9) = sum(Case1_RES_New(:,1:8).*bldg_BldgScheme_p,2);
 
 EAL = [Case0_RES_Hazus, Case1_RES_Hazus, Case0_RES_New, Case1_RES_New];
 
+disp('Normalizing results by household income...')
 Case0_RES_Hazus(:,1:8) = Case0_RES_Hazus(:,1:8)./bldg_HsngInc_avg_1000USD;
 Case1_RES_Hazus(:,1:8) = Case1_RES_Hazus(:,1:8)./bldg_HsngInc_avg_1000USD;
 Case0_RES_New(:,1:8) = Case0_RES_New(:,1:8)./bldg_HsngInc_avg_1000USD;
