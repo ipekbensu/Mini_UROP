@@ -49,12 +49,12 @@ Step 1: Running the code
 
 Step 2: Sharing the results  
 
-- **You'll have 12 .mat and 12 .csv files for EALs in each state.**  
-- **4 of each are 'EAL' (in $1000 per household).**  
-- **4 are 'EAL_PerValue' (normalized by home value).**  
-- **4 are 'EAL_PerInc' (normalized by household income).**  
-- **6 are 'Case0' (for an unmitigated building stock) and 6 are 'Case1' (for a mitigated building stock).**  
-- **Also, 6 are 'Hazus' (based on a framework developed by FEMA) and 6 are 'New' (based on an updated framework).**  
+- **You'll have 6 .mat and 6 .csv files for EALs in each state.**  
+- **2 of each are 'EAL' (in $1000 per household).**  
+- **2 are 'EAL_PerValue' (normalized by home value).**  
+- **2 are 'EAL_PerInc' (normalized by household income).**  
+- **Each includes 'Case0' (for an unmitigated building stock) and 'Case1' (for a mitigated building stock).**  
+- **Also, each includes 'Hazus' (based on a framework developed by FEMA) and 'New' (based on an updated framework).**  
 - Upload to Dropbox :)  
 
 Additional reading on Hazus:  
