@@ -126,7 +126,7 @@ for i=1:22
     
     nRegions = length(Regions);
     
-    for region=1:rRegions
+    for region=1:nRegions
         if Regions(region)==1
             RegionAbbrev = 'FL_Central';
             LoadName = strcat(StateAbbrev,'_',RegionAbbrev,'_Cd.mat');
