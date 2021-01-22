@@ -23,7 +23,7 @@ load(ACS_DP04_data);
 % columns (8): 1, 2,... 8 (BLD)
 % units: hsng
 bld = zeros(size(tracts,1),8);
-bld(:,1) = ACS_DP04_data.HC01_VC21;
+bld(:,1) = table2array(ACS_DP04_data(:,56));
 for j=1:7
     
     bld(:,j+1) = table2array(ACS_DP04_data(:,28+4*(j-1)));
