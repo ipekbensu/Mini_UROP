@@ -21,7 +21,6 @@ for i=1:22
         Regions = 5;
         disp(strcat('State:',StateName))
     elseif i==4
-        % update loss model to include
         StateName = 'DistrictofColumbia';
         StateAbbrev = 'DC';
         StateFIPS = '11';
@@ -96,14 +95,11 @@ for i=1:22
     elseif i==16
         % not included in hurricane-prone states
         % included for visualization
-        % update loss model to include
         StateName = 'Pennsylvania';
         StateAbbrev = 'PA';
         StateFIPS = '42';
-        Regions = null;
+        Regions = 5;
         disp(strcat('State:',StateName))
-        disp('Skipping...')
-        continue
     elseif i==17
         StateName = 'RhodeIsland';
         StateAbbrev = 'RI';
@@ -125,14 +121,11 @@ for i=1:22
     elseif i==20
         % not included in hurricane-prone states
         % included for visualization
-        % update loss model to include
         StateName = 'Vermont';
         StateAbbrev = 'VT';
         StateFIPS = '50';
-        Regions = null;
+        Regions = 5;
         disp(strcat('State:',StateName))
-        disp('Skipping...')
-        continue
     elseif i==21
         StateName = 'Virginia';
         StateAbbrev = 'VA';
@@ -142,14 +135,11 @@ for i=1:22
     elseif i==22
         % not included in hurricane-prone states
         % included for visualization
-        % update loss model to include
         StateName = 'WestVirginia';
         StateAbbrev = 'WV';
         StateFIPS = '54';
-        Regions = null;
+        Regions = 5;
         disp(strcat('State:',StateName))
-        disp('Skipping...')
-        continue
     end
     
     nRegions = length(Regions);
