@@ -318,7 +318,7 @@ clear k
 % columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
 % pages (6): baseline, dir_1, dir_2, dir_3, dir_4, dir_avg
 % units: fractions (EAL / value)
-disp('Initializing EALs...')
+disp('Initializing building-specific EALs...')
 loss_RES_Case0 = zeros(size(tract,1),8,6);
 loss_RES_Case1 = zeros(size(tract,1),8,6);
 
@@ -350,7 +350,7 @@ for k=1:4
 end
 clear k
 
-disp('Computing EALs...')
+disp('Computing building-specific EALs...')
 for j=1:8
     
     loss_RES_Case0(:,j,1) = sum(P_baseline.*bldg_BldgFunc_RES_Case0(:,:,j),2);
