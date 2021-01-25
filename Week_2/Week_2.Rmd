@@ -170,5 +170,3 @@ Step 15: Sharing the results
 
 - **You'll have one .mat and one .csv file for drag coefficients in each state.**  
 - Upload to Dropbox :)  
-
-**I've never run this code before, so let me know if you get error messages!**  
