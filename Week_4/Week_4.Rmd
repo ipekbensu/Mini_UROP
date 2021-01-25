@@ -9,3 +9,25 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Wrapping up:  
+
+- How would you like to present your results?  
+
+## Introduction  
+
+- What are some interesting points from your background reading?  
+- On hurricanes: [NOAA](https://coast.noaa.gov/states/fast-facts/hurricane-costs.html)  
+- On mitigation: [IBHS](https://www.youtube.com/watch?v=RD8ZZjeQmC4)  
+
+## Body  
+
+- What is your end goal?  
+- What kinds of tools and models did you use?  
+- How did the models work? (eg, inputs and outputs)  
+- What are some of your results?  
+
+## Conclusion  
+
+- What are the key takeaways from your results?  
+- How could the models be made better?  
+- Next steps?  
