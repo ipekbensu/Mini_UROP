@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 shiny::includeHTML("./Tableau_ex.html")
 ```
 
-- You can check out the example figures: [here](https://public.tableau.com/profile/bensu8294#!/vizhome/ex_3_16110820952000/ModelWindSpeedRatios)  
 - Referring to the model WSRs, we expect metro areas to be "orange", and less dense areas to be "blue".
 - Miami, Orlando and Jacksonville in FL follow this trend.  
 - However, metro areas such as Atlanta in GA are not discernable. Why?  
