@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 shiny::includeHTML("./Tableau_ex.html")
 ```
 
-- Referring to the model WSRs, we expect metro areas to be "orange", and less dense areas to be "blue".
+- Referring to model results, we expect metro areas to be "orange", and less dense areas to be "blue".
 - Miami, Orlando and Jacksonville in FL follow this trend.  
 - However, metro areas such as Atlanta in GA are not discernable. Why?  
 - Several inland areas in TX and NY that don't seem to be metro areas are discernable. Why?  
