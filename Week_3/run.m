@@ -65,6 +65,6 @@ else
 end
 save(SaveName_mat,'buildings_EAL_PerInc');
 writetable(buildings_EAL_PerInc,SaveName_csv);
-disp('Done!')
+disp('Done')
 
 end

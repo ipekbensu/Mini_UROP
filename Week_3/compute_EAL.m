@@ -7,7 +7,7 @@ function [EAL, PerValue_EAL, PerInc_EAL] = compute_EAL(tract, Cd, StateAbbrev, S
 disp('Loading Census Bureau data...')
 ACS_DP03_data = strcat('ACS_DP03_',StateFIPS,'.mat');
 load(ACS_DP03_data);
-tracts = ACS_DP03_data.GEOid2;
+tracts = table2array(ACS_DP03_data(:,2));
 
 % load Hazus data
 % this data is on the scale of census tracts

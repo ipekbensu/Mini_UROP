@@ -11,20 +11,21 @@ A = area;
 % this section is work of Roxon et al. 2020
 % -
 
-var_x = 10000;
+var_x = 10000; 
+% tranform LON and LAT (var_x may need experimenting for optimal performance)
 cx = abs(X)*var_x;
 cy = abs(Y)*var_x;
 xmax = max(cx);
 xmin = min(cx);
 ymax = max(cy);
 ymin = min(cy);
-% find average building size
-% avg_area = exp(mean(log(area)));
-% avg_length = sqrt(avg_area);
+% find average building size 
+avg_area = exp(nanmean(log(A)));
+avg_length = sqrt(avg_area);
+% avg_length = nanmean(sqrt(A));
 
-avg_length = nanmean(sqrt(A));
-% calculate box size
-alpha = avg_length*20;
+% calculate box size (may need experimenting with the constant)
+alpha = avg_length*10;
 % move all the coordinates by xmin and ymin, such that (xmin, ymin)->(0,0)
 cx_new = cx - xmin;
 cy_new = cy - ymin;
@@ -50,27 +51,27 @@ for h = 1:length(cx_new)
     counter = counter -1;
     disp(counter);
 end
-% calculate cut off radius based on average L
-rcut = avg_length*3.5;
 
 timer = 0;
 counter = length(cx);
 radius=6371;
 damage = ones(length(cx), 1);
-P = zeros(length(cx), 1);
-L = sqrt(A);
-Cn = zeros(length(cx), 1);
+den = zeros(length(cx), 1);
+L = nan(length(cx), 1);
+Cn = nan(length(cx), 1);
 LAT = zeros(length(cx), 1);
 LON = zeros(length(cx), 1);
-A_b = zeros(length(cx), 1);
+A_b = nan(length(cx), 1);
 for h = 1:size(avail, 1)
     for j = 1:size(avail, 2)
         if avail(h,j) > 0
             for k = 1:avail(h,j)
                 lat1 = Y(resv(h,j,k))*pi/180;
                 lon1 = X(resv(h,j,k))*pi/180;
-                area_ref = A(resv(h,j,k));
-                rdf_l = zeros(20, 1);
+                % reference building size
+                B_ref_size = sqrt(A(resv(h,j,k)));
+                B_neighbor_size = nan(1000, 1);
+                dist_local = nan(1000, 1);
                 nsur = 0;
                 for l = -1:1
                     ii = h + l;
@@ -89,35 +90,40 @@ for h = 1:size(avail, 1)
                                     a=sin((deltaLat)/2).^2 + cos(lat1).*cos(lat2) .* sin(deltaLon/2).^2;
                                     c=2*atan2(sqrt(a),sqrt(1-a));
                                     % distance in meters
-                                    d1m=radius*c*1000; 
-                                    if d1m <= rcut
-                                        nsur = nsur + 1;
-                                        rdf_l(nsur,1) = A(resv(ii,jj,n));
-                                    end
+                                    dist=radius*c*1000; 
+                                    nsur = nsur + 1;
+                                    B_neighbor_size(nsur) = sqrt(A(resv(ii,jj,n)));
+                                    dist_local(nsur) = dist;      
                                 end
                            end
                        end
                    end
                 end
+                % avg size for buildings within distance alpha 
+                avg_length = nanmean([B_ref_size; B_neighbor_size]);
+                % calculate cut off radius based on average L
+                rcut = avg_length*3.5;
+                area_circle = pi()*rcut^2;
+                var = dist_local<=rcut;
+                nsur = sum(var);
                 timer = timer + 1;
                 % allocate X to LON and Y to LAT
                 LAT(timer) = Y(resv(h,j,k));
                 LON(timer) = X(resv(h,j,k));
                 A_b(timer) = A(resv(h,j,k));
                 % calculate drag coefficient
-                if nsur>0
-                    density_local = (1+nsur)/(pi()*rcut^2);
-                    density_length = (sqrt(area_ref)+sum(sqrt(rdf_l(1:nsur))))/(nsur+1);
+                density_planar = ((B_ref_size^2)+sum(B_neighbor_size(var).^2))/(area_circle);                
+                if nsur>0 && density_planar < 0.63
+                    density_local = (1+nsur)/(area_circle);
+                    density_length = (B_ref_size+sum(B_neighbor_size(var)))/(nsur+1);
                     damage(timer) = nsur*(9.5*density_local*density_length)^0.5+1;
-                    P(timer) = density_local;
+                    den(timer) = density_local;
                     L(timer) = density_length;
                     Cn(timer) = nsur;
                 else
-                    L(timer) = sqrt(area_ref);
-                    %damage(timer) = 1;
+                    L(timer) = B_ref_size;
                     damage(timer) = 2; % added
-                    P(timer) = (1)/(pi()*rcut^2);
-                    %L(timer) = density_length;
+                    den(timer) = (1)/(area_circle);
                     Cn(timer) = 0;
                 end
                 counter = counter - 1;
@@ -127,7 +133,6 @@ for h = 1:size(avail, 1)
     end
 end
 %A = A_b;
-den = P;
 
 % output building-specific drag coefficients
 % -

@@ -6,15 +6,21 @@ function [HsngScheme_count, HsngScheme_p, HsngScheme_pi] = create_HsngScheme(Sta
 PUMS_data = strcat('PSAM_h',StateFIPS,'.mat');
 load(PUMS_data);
 ADJINC = PUMS_data.ADJINC;
-BLD = str2double(PUMS_data.BLD);
-HINCP = str2double(PUMS_data.HINCP);
+BLD = PUMS_data.BLD;
+if (ischar(BLD))
+    BLD = str2double(PUMS_data.BLD);
+end
+HINCP = PUMS_data.HINCP;
+if (ischar(HINCP))
+    HINCP = str2double(PUMS_data.HINCP);
+end
 
 % load ACS_DP03_data, ACS_DP04_data
 % -
 
 ACS_DP03_data = strcat('ACS_DP03_',StateFIPS,'.mat');
 load(ACS_DP03_data);
-tracts = ACS_DP03_data.GEOid2;
+tracts = table2array(ACS_DP03_data(:,2));
 
 ACS_DP04_data = strcat('ACS_DP04_',StateFIPS,'.mat');
 load(ACS_DP04_data);
