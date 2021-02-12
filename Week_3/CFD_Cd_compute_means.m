@@ -1,6 +1,4 @@
 function [WSRR_input] = CFD_Cd_compute_means(param, type)
-% type==0: dir_1 weibull, dir_2 and dir_3 beta
-% type==1: dir_1, dir_2 and dir_3 weibull
 
 % define quart
 % -
@@ -18,7 +16,7 @@ quart = [...
 % -
 
 % rows (4): 25, 50, 75, 100 (%ile mean)
-% columns (4): 1, 2, 3, 4 (rank)
+% columns (4): 1, 2, 3, 4 (directional severity)
 % units: WSRR (WSR_x / WSR_4)
 WSRR_input = zeros(4,4);
 WSRR_input(:,4) = ones(4,1);
@@ -27,15 +25,18 @@ WSRR_input(:,4) = ones(4,1);
 % -
 
 % rows (3): 25, 50, 75, 100 (%ile)
-% pages (3): 1, 2, 3 (rank)
+% pages (3): 1, 2, 3 (directional severity)
 % units: WSRR (WSR_x / WSR_4)
 WSRR_quart = zeros(4,25,3);
 
 if (type==0)
+    % computes weibull fit for dir_1
+    % computes beta fit for dir_2 and dir_3
     WSRR_quart(:,:,1) = wblinv(quart,param(1,1),param(2,1));
     WSRR_quart(:,:,2) = betainv(quart,param(1,2),param(2,2));
     WSRR_quart(:,:,3) = betainv(quart,param(1,3),param(2,3));
 elseif (type==1)
+    % computes weibull fit
     WSRR_quart(:,:,1) = wblinv(quart,param(1,1),param(2,1));
     WSRR_quart(:,:,2) = wblinv(quart,param(1,2),param(2,2));
     WSRR_quart(:,:,3) = wblinv(quart,param(1,3),param(2,3));

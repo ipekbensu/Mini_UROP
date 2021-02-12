@@ -1,6 +1,4 @@
 function [param] = CFD_Cd_fit_WSRR(range, WSR_1, WSR_2, WSR_3, WSR_4, type)
-% type==0: dir_1 weibull, dir_2 and dir_3 beta
-% type==1: dir_1, dir_2 and dir_3 weibull
 
 % define WSR_min, WSR_max
 % -
@@ -42,11 +40,14 @@ WSR_4_select = WSR_4_select(WSR_4_select<WSR_max(range));
 % -
 
 if (type==0)
+    % computes weibull fit for dir_1
+    % computes beta fit for dir_2 and dir_3
     % units: parameters
     param(:,1) = [wblfit(WSRR_1_select)]';
     param(:,2) = [betafit(WSRR_2_select)]';
     param(:,3) = [betafit(WSRR_3_select)]';
 elseif (type==1)
+    % computes weibull fit
     % units: parameters
     param(:,1) = [wblfit(WSRR_1_select)]';
     param(:,2) = [wblfit(WSRR_2_select)]';

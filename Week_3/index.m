@@ -174,7 +174,6 @@ for i=1:22
         % compute and save building-specific EALs
         % -
         
-        disp('Loading building input...')
         load(LoadName);
         run(StateAbbrev, StateFIPS, RegionAbbrev, buildings_Cd);
     end

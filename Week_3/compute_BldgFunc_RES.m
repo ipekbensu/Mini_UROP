@@ -1,9 +1,5 @@
 function [BldgFunc_RES_Case0, BldgFunc_RES_Case1] = compute_BldgFunc_RES(StateAbbrev, RegionAbbrev)
 
-%[BldgFunc_RES_Case0, BldgFunc_RES_Case1] = compute_BldgFunc_RES(state, region)
-% create StateID, StateLabel, RegionLabel
-% -
-
 % load BldgFunc
 % -
 

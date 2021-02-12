@@ -11,13 +11,11 @@ Cd = buildings_Cd.Cd;
 % compute building-specific EALs
 % -
 
-disp('Initiating loss model...')
 [EAL, PerValue_EAL, PerInc_EAL] = compute_EAL(tract, Cd, StateAbbrev, StateFIPS, RegionAbbrev);
 
 % save building-specific EALs
 % -
 
-disp('Saving results...')
 buildings_EAL = array2table(horzcat(tract,lat,lon,Cd,EAL),...
     'VariableNames',{'tract','lat','lon','Cd',...
     'Case0_RES1_Hazus','Case0_RES2_Hazus','Case0_RES3A_Hazus','Case0_RES3B_Hazus','Case0_RES3C_Hazus','Case0_RES3D_Hazus','Case0_RES3E_Hazus','Case0_RES3F_Hazus','Case0_RES_Hazus',...
@@ -65,6 +63,5 @@ else
 end
 save(SaveName_mat,'buildings_EAL_PerInc');
 writetable(buildings_EAL_PerInc,SaveName_csv);
-disp('Done')
 
 end

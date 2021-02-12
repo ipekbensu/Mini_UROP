@@ -47,7 +47,7 @@ for j=1:10
 end
 clear j
 
-% load HAZUS data
+% load Hazus data
 % -
 
 exposure_count = strcat(lower(StateAbbrev),'_exposure_count.mat');
@@ -59,9 +59,9 @@ load(exposure_count);
 % RES3B: BLD==5
 % RES3C: BLD==6
 % RES3D: BLD==7
-% RES3E: BLD==8 (use HAZUS exposure to adjust)
-% RES3F: BLD==8 (use HAZUS exposure to adjust)
-% columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% RES3E: BLD==8 (use Hazus exposure to adjust)
+% RES3F: BLD==8 (use Hazus exposure to adjust)
+% columns (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: bldg
 exposure_count_Hazus = table2array(exposure_count(:,2:9));
 tracts_Hazus = exposure_count.CensusTract;
@@ -76,9 +76,9 @@ tracts_Hazus = exposure_count.CensusTract;
 % RES3B: BLD==5
 % RES3C: BLD==6
 % RES3D: BLD==7
-% RES3E: BLD==8 (use HAZUS exposure to adjust)
-% RES3F: BLD==8 (use HAZUS exposure to adjust)
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% RES3E: BLD==8 (use Hazus exposure to adjust)
+% RES3F: BLD==8 (use Hazus exposure to adjust)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % columns (10): 1, 2,... 10 (HINCP bin)
 % units: hsng or fractions
 % pages represent different census tracts

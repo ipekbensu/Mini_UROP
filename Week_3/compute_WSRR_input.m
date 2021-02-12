@@ -20,7 +20,7 @@ CFD_Cd = table2array(CFD_Cd);
 % -
 
 % rows (4): 25, 50, 75, 100 (%ile mean)
-% columns (4): 1, 2, 3, 4 (rank)
+% columns (4): 1, 2, 3, 4 (directional severity)
 % pages (6): 1-1.5, 1.5-2,... 3.5-4 (Cd range)
 % units: WSRR (WSR_x / WSR_4)
 WSRR_input = zeros(4,4,6);
@@ -71,7 +71,7 @@ WSR_4 = WSR_4(WSR_4<=CFD_Cd_compute_WSR(Cd_max));
 % -
 
 % rows (2): alpha, beta (parameters)
-% columns (3): 1, 2, 3 (rank)
+% columns (3): 1, 2, 3 (directional severity)
 % pages (6): 1-1.5, 1.5-2,... 3.5-4 (Cd range)
 % units: parameters
 param = zeros(2,3,6);
