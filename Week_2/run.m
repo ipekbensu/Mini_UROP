@@ -6,18 +6,25 @@ function [] = run(StateAbbrev,buildings)
 lat = buildings.lat;
 lon = buildings.lon;
 area = buildings.area;
-tract = buildings.GEOID;
 
 % compute building-specific drag coefficients
 % -
 
-[Cd] = city_texture_cd_model(lat,lon,area);
+% LAT, LON, AREA, Cd, P, L, Cn
+% LAT: latitude (deg)
+% LON: longitude (deg)
+% Cd: drag coefficient
+% P: local density
+% L: local density length
+% Cd: #surrounding bldgs
+[LAT,LON,AREA,Cd,P,L,Cn] = city_texture_cd_model(lat,lon,area);
 
 % save building-specific drag coefficients
 % -
 
-buildings_Cd = array2table(horzcat(tract,lat,lon,area,Cd),...
-    'VariableNames',{'tract','lat','lon','area','Cd'});
+buildings_Cd = array2table(horzcat(LAT,LON,AREA,Cd,P,L,Cn),...
+    'VariableNames',{'lat','lon','area','Cd',...
+    'density','density_length','nsur'});
 SaveName_mat = strcat(StateAbbrev,'_Cd.mat');
 SaveName_csv = strcat(StateAbbrev,'_Cd.csv');
 save(SaveName_mat,'buildings_Cd');

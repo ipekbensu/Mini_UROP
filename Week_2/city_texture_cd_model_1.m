@@ -1,4 +1,4 @@
-function [Cd] = city_texture_cd_model(lat,lon,area)
+function [LAT,LON,AREA,Cd,P,L,Cn] = city_texture_cd_model(lat,lon,area)
 
 % assign building information
 % -
@@ -19,12 +19,9 @@ xmin = min(cx);
 ymax = max(cy);
 ymin = min(cy);
 % find average building size
-% avg_area = exp(mean(log(area)));
-% avg_length = sqrt(avg_area);
-
 avg_length = nanmean(sqrt(A));
 % calculate box size
-alpha = avg_length*15;
+alpha = avg_length*20;
 % move all the coordinates by xmin and ymin, such that (xmin, ymin)->(0,0)
 cx_new = cx - xmin;
 cy_new = cy - ymin;
@@ -39,7 +36,7 @@ for h = 1:length(cx_new)
         NNx = floor((cx_new(h))/alpha);
     else
         NNx = floor((cx_new(h))/alpha)+1;
-    end
+    end 
     if (rem(cy_new(h),alpha) == 0) && (cy_new(h)~=0)
         NNy = floor((cy_new(h))/alpha);
     else
@@ -55,12 +52,14 @@ rcut = avg_length*3.5;
 
 timer = 0;
 counter = length(cx);
-radius=6371;
-damage = ones(length(cx), 1);
+radius = 6371;
+Cd = ones(length(cx), 1);
 P = zeros(length(cx), 1);
 L = sqrt(A);
 Cn = zeros(length(cx), 1);
-
+LAT = zeros(length(cx), 1);
+LON = zeros(length(cx), 1);
+AREA = zeros(length(cx), 1);
 for h = 1:size(avail, 1)
     for j = 1:size(avail, 2)
         if avail(h,j) > 0
@@ -82,11 +81,12 @@ for h = 1:size(avail, 1)
                                     % points
                                     lat2 = Y(resv(ii,jj,n))*pi/180;
                                     lon2 = X(resv(ii,jj,n))*pi/180;
-                                    deltaLat=lat2-lat1;
-                                    deltaLon=lon2-lon1;
-                                    a=sin((deltaLat)/2).^2 + cos(lat1).*cos(lat2) .* sin(deltaLon/2).^2;
-                                    c=2*atan2(sqrt(a),sqrt(1-a));
-                                    d1m=radius*c*1000;
+                                    deltaLat = lat2-lat1;
+                                    deltaLon = lon2-lon1;
+                                    a = sin((deltaLat)/2).^2 + cos(lat1).*cos(lat2) .* sin(deltaLon/2).^2;
+                                    c = 2*atan2(sqrt(a),sqrt(1-a));
+                                    % distance in meters
+                                    d1m = radius*c*1000; 
                                     if d1m <= rcut
                                         nsur = nsur + 1;
                                         rdf_l(nsur,1) = A(resv(ii,jj,n));
@@ -97,34 +97,42 @@ for h = 1:size(avail, 1)
                    end
                 end
                 timer = timer + 1;
+                % allocate X to LON and Y to LAT
+                LAT(timer) = Y(resv(h,j,k));
+                LON(timer) = X(resv(h,j,k));
+                AREA(timer) = A(resv(h,j,k));
                 % calculate drag coefficient
                 if nsur>0
                     density_local = (1+nsur)/(pi()*rcut^2);
                     density_length = (sqrt(area_ref)+sum(sqrt(rdf_l(1:nsur))))/(nsur+1);
-                    damage(timer) = nsur*(9.5*density_local*density_length)^0.5+1;
+                    Cd(timer) = nsur*(9.5*density_local*density_length)^0.5+1;
                     P(timer) = density_local;
                     L(timer) = density_length;
                     Cn(timer) = nsur;
                 else
-                    L(timer) = sqrt(area_ref);
-                    %damage(timer) = 1;
-                    damage(timer) = 2; % added
+                    %Cd(timer) = 1;
+                    Cd(timer) = 2; % added
                     P(timer) = (1)/(pi()*rcut^2);
+                    L(timer) = sqrt(area_ref);
                     %L(timer) = density_length;
                     Cn(timer) = 0;
                 end
                 counter = counter - 1;
                 disp(counter);
-            end
+            end 
         end
     end
 end
-%A = A_b;
-den = P;
 
 % output building-specific drag coefficients
 % -
 
-Cd = damage;
+% LAT, LON, AREA, Cd, P, L, Cn
+% LAT: latitude (deg)
+% LON: longitude (deg)
+% Cd: drag coefficient
+% P: local density
+% L: local density length
+% Cd: #surrounding bldgs
 
 end
