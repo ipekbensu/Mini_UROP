@@ -8,15 +8,12 @@ lon = buildings.lon;
 area = buildings.area;
 
 % compute building-specific drag coefficients
+% Mini_UROP: change one of the models' name to city_texture_model.m
+% Model 1: doesn't have a threshold for local density
+% Model 2: has a threshold for local density
+% the latest version is Model 2
 % -
 
-% LAT, LON, AREA, Cd, P, L, Cn
-% LAT: latitude (deg)
-% LON: longitude (deg)
-% Cd: drag coefficient
-% P: local density
-% L: local density length
-% Cd: #surrounding bldgs
 [LAT,LON,AREA,Cd,P,L,Cn] = city_texture_cd_model(lat,lon,area);
 
 % save building-specific drag coefficients

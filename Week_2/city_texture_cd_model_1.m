@@ -133,6 +133,6 @@ end
 % Cd: drag coefficient
 % P: local density
 % L: local density length
-% Cd: #surrounding bldgs
+% Cn: #surrounding bldgs
 
 end
