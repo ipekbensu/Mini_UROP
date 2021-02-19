@@ -17,8 +17,6 @@ surface_roughness = strcat(lower(StateAbbrev),'_surface_roughness.mat');
 load(surface_roughness);
 peak_gusts = strcat(lower(StateAbbrev),'_peak_gusts.mat');
 load(peak_gusts);
-exposure_1000SF = strcat(lower(StateAbbrev),'_exposure_1000SF.mat');
-load(exposure_1000SF);
 exposure_1000USD = strcat(lower(StateAbbrev),'_exposure_1000USD.mat');
 load(exposure_1000USD);
 exposure_count = strcat(lower(StateAbbrev),'_exposure_count.mat');
@@ -35,12 +33,6 @@ peak_gusts_Hazus = table2array(peak_gusts(:,12:18));
 tracts_Hazus = peak_gusts.Tract;
 [tracts_peak_gusts] = NN(StateAbbrev, tracts, tracts_Hazus, peak_gusts_Hazus);
 [tracts_Weibull] = estimate_Weibull(tracts_peak_gusts);
-
-% % columns (8): RES1, RES2,... RES3F (Hazus bldg type)
-% % units: 1000 SF
-% exposure_1000SF_Hazus = table2array(exposure_1000SF(:,2:9));
-% tracts_Hazus = exposure_1000SF.CensusTract;
-% [tracts_exposure_1000SF] = NN(StateAbbrev, tracts, tracts_Hazus, exposure_1000SF_Hazus);
 
 % columns (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: 1000 USD
@@ -65,8 +57,7 @@ tracts_Hazus = exposure_count.CensusTract;
 % -
 
 % columns (8): RES1, RES2,... RES3F (Hazus bldg type)
-% units: 1000 SF / hsng or 1000 USD / hsng
-% tracts_avg_1000SF = tracts_exposure_1000SF./exposure;
+% units: 1000 USD / hsng
 tracts_avg_1000USD = tracts_exposure_1000USD./exposure;
 
 % compute BldgFunc_RES_Case0, BldgFunc_RES_Case1
@@ -122,8 +113,6 @@ clear i
 % check errors
 % -
 
-% tracts_avg_1000SF(:,8) = tracts_avg_1000SF(:,7);
-% tracts_avg_1000SF(isnan(tracts_avg_1000SF)) = 0;
 tracts_avg_1000USD(isnan(tracts_avg_1000USD)) = 0;
 BldgScheme_count(isnan(BldgScheme_count)) = 0;
 BldgScheme_p(isnan(BldgScheme_p)) = 0;
@@ -137,14 +126,7 @@ HsngInc_avg_1000USD(isnan(HsngInc_avg_1000USD)) = 0;
 
 % compute building-specific EALs
 % information is on different scales
-% building-level information: tract, Cd, WSR
-% region-level: BldgFunc_RES_Case0, BldgFunc_RES_Case1
-% tract-level: tracts,...
-% tracts_surface_roughness,...
-% tracts_peak_gusts, tracts_Weibull,...
-% tracts_avg_1000SF, tracts_avg_1000USD,...
-% BldgScheme_count, BldgScheme_p, HsngInc_avg_1000USD,...
-% general: WSRR_input
+% -
 
 % define ranges
 % -
@@ -162,13 +144,10 @@ surface_roughness_max = [0.03,0.35,0.7,1];
 
 bldg_WSRR = zeros(size(tract,1),size(WSRR_input,1),size(WSRR_input,2));
 bldg_surface_roughness = zeros(size(tract,1),size(tracts_surface_roughness,2));
-% bldg_peak_gusts = zeros(size(tract,1),size(tracts_peak_gusts,2));
 bldg_Weibull = zeros(size(tract,1),size(tracts_Weibull,2));
-% bldg_avg_1000SF = zeros(size(tract,1),size(tracts_avg_1000SF,2));
 bldg_avg_1000USD = zeros(size(tract,1),size(tracts_avg_1000USD,2));
 bldg_BldgFunc_RES_Case0 = zeros(size(tract,1),size(BldgFunc_RES_Case0,2),size(BldgFunc_RES_Case0,1));
 bldg_BldgFunc_RES_Case1 = zeros(size(tract,1),size(BldgFunc_RES_Case1,2),size(BldgFunc_RES_Case1,1));
-% bldg_BldgScheme_count = zeros(size(tract,1),size(BldgScheme_count,2));
 bldg_BldgScheme_p = zeros(size(tract,1),size(BldgScheme_p,2));
 bldg_HsngInc_avg_1000USD = zeros(size(tract,1),size(HsngInc_avg_1000USD,2));
 
@@ -205,15 +184,6 @@ for i=1:size(tracts,1)
         end
         clear j
         
-%         for j=1:size(tracts_peak_gusts,2)
-% 
-%             bldg_peak_gusts_j = zeros(size(tract,1),1);
-%             bldg_peak_gusts_j(tract==tracts(i)) = tracts_peak_gusts(i,j);
-%             bldg_peak_gusts(:,j) = bldg_peak_gusts(:,j)+bldg_peak_gusts_j;
-% 
-%         end
-%         clear j
-
         for j=1:size(tracts_Weibull,2)
 
             bldg_Weibull_j = zeros(size(tract,1),1);
@@ -223,15 +193,6 @@ for i=1:size(tracts,1)
         end
         clear j
 
-%         for j=1:size(tracts_avg_1000SF,2)
-% 
-%             bldg_avg_1000SF_j = zeros(size(tract,1),1);
-%             bldg_avg_1000SF_j(tract==tracts(i)) = tracts_avg_1000SF(i,j);
-%             bldg_avg_1000SF(:,j) = bldg_avg_1000SF(:,j)+bldg_avg_1000SF_j;
-% 
-%         end
-%         clear j
-
         for j=1:size(tracts_avg_1000USD,2)
 
             bldg_avg_1000USD_j = zeros(size(tract,1),1);
@@ -240,15 +201,6 @@ for i=1:size(tracts,1)
 
         end
         clear j
-
-%         for j=1:size(BldgScheme_count,2)
-% 
-%             bldg_BldgScheme_count_j = zeros(size(tract,1),1);
-%             bldg_BldgScheme_count_j(tract==tracts(i)) = BldgScheme_count(i,j);
-%             bldg_BldgScheme_count(:,j) = bldg_BldgScheme_count(:,j)+bldg_BldgScheme_count_j;
-% 
-%         end
-%         clear j
 
         for j=1:size(BldgScheme_p,2)
 
@@ -268,7 +220,7 @@ for i=1:size(tracts,1)
         end
         clear j
     end
-    
+    disp(size(tracts,1)-i)
 end
 clear i
 

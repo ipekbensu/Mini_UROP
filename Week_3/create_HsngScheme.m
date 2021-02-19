@@ -7,11 +7,11 @@ PUMS_data = strcat('PSAM_h',StateFIPS,'.mat');
 load(PUMS_data);
 ADJINC = PUMS_data.ADJINC;
 BLD = PUMS_data.BLD;
-if (ischar(BLD))
+if (ischar(BLD)||isstring(BLD))
     BLD = str2double(PUMS_data.BLD);
 end
 HINCP = PUMS_data.HINCP;
-if (ischar(HINCP))
+if (ischar(HINCP)||isstring(HINCP))
     HINCP = str2double(PUMS_data.HINCP);
 end
 

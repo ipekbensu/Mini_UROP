@@ -175,7 +175,26 @@ for i=1:22
         % -
         
         load(LoadName);
-        run(StateAbbrev, StateFIPS, RegionAbbrev, buildings_Cd);
+        cutoff_check = 4000000;
+        cutoff_part = 2500000;
+        if (size(buildings_Cd,1)>cutoff_check)
+            parts = ceil(size(buildings_Cd,1)/cutoff_part);
+        else
+            parts = 0;
+        end
+        if (parts>0)
+            for part=1:parts
+                if (part<parts)
+                    part_Cd = buildings_Cd((1+(part-1)*cutoff_part):(part*cutoff_part),:);
+                    run(StateAbbrev, StateFIPS, RegionAbbrev, part_Cd, part);
+                else
+                    part_Cd = buildings_Cd((1+(part-1)*cutoff_part):end,:);
+                    run(StateAbbrev, StateFIPS, RegionAbbrev, part_Cd, part);
+                end
+            end
+        else
+            run(StateAbbrev, StateFIPS, RegionAbbrev, buildings_Cd, parts);
+        end
     end
     
 end

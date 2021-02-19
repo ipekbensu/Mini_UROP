@@ -1,9 +1,12 @@
-function [] = run(StateAbbrev, StateFIPS, RegionAbbrev, buildings_Cd)
+function [] = run(StateAbbrev, StateFIPS, RegionAbbrev, buildings_Cd, part)
 
 % assign building information
 % -
 
 tract = buildings_Cd.tract;
+if (iscell(tract))
+    tract = str2num(cell2mat(tract));
+end
 lat = buildings_Cd.lat;
 lon = buildings_Cd.lon;
 Cd = buildings_Cd.Cd;
@@ -25,11 +28,14 @@ buildings_EAL = array2table(horzcat(tract,lat,lon,Cd,EAL),...
 if (str2double(StateFIPS)==12)
     SaveName_mat = strcat(StateAbbrev,'_',RegionAbbrev,'_EAL.mat');
     SaveName_csv = strcat(StateAbbrev,'_',RegionAbbrev,'_EAL.csv');
+elseif (part>0)
+    SaveName_mat = strcat(StateAbbrev,'_',num2str(part),'_EAL.mat');
+    SaveName_csv = strcat(StateAbbrev,'_',num2str(part),'_EAL.csv');
 else
     SaveName_mat = strcat(StateAbbrev,'_EAL.mat');
     SaveName_csv = strcat(StateAbbrev,'_EAL.csv');
 end
-save(SaveName_mat,'buildings_EAL');
+% save(SaveName_mat,'buildings_EAL');
 writetable(buildings_EAL,SaveName_csv);
 
 buildings_EAL_PerValue = array2table(horzcat(tract,lat,lon,Cd,PerValue_EAL),...
@@ -41,11 +47,14 @@ buildings_EAL_PerValue = array2table(horzcat(tract,lat,lon,Cd,PerValue_EAL),...
 if (str2double(StateFIPS)==12)
     SaveName_mat = strcat(StateAbbrev,'_',RegionAbbrev,'_EAL_PerValue.mat');
     SaveName_csv = strcat(StateAbbrev,'_',RegionAbbrev,'_EAL_PerValue.csv');
+elseif (part>0)
+    SaveName_mat = strcat(StateAbbrev,'_',num2str(part),'_EAL_PerValue.mat');
+    SaveName_csv = strcat(StateAbbrev,'_',num2str(part),'_EAL_PerValue.csv');
 else
     SaveName_mat = strcat(StateAbbrev,'_EAL_PerValue.mat');
     SaveName_csv = strcat(StateAbbrev,'_EAL_PerValue.csv');
 end
-save(SaveName_mat,'buildings_EAL_PerValue');
+% save(SaveName_mat,'buildings_EAL_PerValue');
 writetable(buildings_EAL_PerValue,SaveName_csv);
 
 buildings_EAL_PerInc = array2table(horzcat(tract,lat,lon,Cd,PerInc_EAL),...
@@ -57,11 +66,14 @@ buildings_EAL_PerInc = array2table(horzcat(tract,lat,lon,Cd,PerInc_EAL),...
 if (str2double(StateFIPS)==12)
     SaveName_mat = strcat(StateAbbrev,'_',RegionAbbrev,'_EAL_PerInc.mat');
     SaveName_csv = strcat(StateAbbrev,'_',RegionAbbrev,'_EAL_PerInc.csv');
+elseif (part>0)
+    SaveName_mat = strcat(StateAbbrev,'_',num2str(part),'_EAL_PerInc.mat');
+    SaveName_csv = strcat(StateAbbrev,'_',num2str(part),'_EAL_PerInc.csv');
 else
     SaveName_mat = strcat(StateAbbrev,'_EAL_PerInc.mat');
     SaveName_csv = strcat(StateAbbrev,'_EAL_PerInc.csv');
 end
-save(SaveName_mat,'buildings_EAL_PerInc');
+% save(SaveName_mat,'buildings_EAL_PerInc');
 writetable(buildings_EAL_PerInc,SaveName_csv);
 
 end
