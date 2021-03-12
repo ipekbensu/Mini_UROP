@@ -1,6 +1,6 @@
 for i=1:22
+    
     % assign state information
-    % -
     
     if i==1
         StateName = 'Alabama';
@@ -63,8 +63,7 @@ for i=1:22
         StateAbbrev = 'NC';
         StateFIPS = '37';
     elseif i==16
-        % not included in hurricane-prone states
-        % included for visualization
+        % @ipekbensu: included for visualization
         StateName = 'Pennsylvania';
         StateAbbrev = 'PA';
         StateFIPS = '42';
@@ -81,8 +80,7 @@ for i=1:22
         StateAbbrev = 'TX';
         StateFIPS = '48';
     elseif i==20
-        % not included in hurricane-prone states
-        % included for visualization
+        % @ipekbensu: included for visualization
         StateName = 'Vermont';
         StateAbbrev = 'VT';
         StateFIPS = '50';
@@ -91,18 +89,18 @@ for i=1:22
         StateAbbrev = 'VA';
         StateFIPS = '51';
     elseif i==22
-        % not included in hurricane-prone states
-        % included for visualization
+        % @ipekbensu: included for visualization
         StateName = 'WestVirginia';
         StateAbbrev = 'WV';
         StateFIPS = '54';
     end
     
-    % compute and save building-specific drag coefficients
-    % -
-    
+    % @ipekbensu: change if necessary
     LoadName = strcat(StateName,'.mat');
     load(LoadName);
+    
+    % compute and save building-specific drag coefficients
+    
     run(StateAbbrev,buildings);
     
 end
