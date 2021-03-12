@@ -1,17 +1,15 @@
 function [EAL, PerValue_EAL, PerInc_EAL] = compute_EAL(tract, Cd, StateAbbrev, StateFIPS, RegionAbbrev)
 
 % load Census Bureau data
-% this data is on the scale of census tracts
-% -
+% @ipekbensu: data on scale of census tracts
 
 ACS_DP03_data = strcat('ACS_DP03_',StateFIPS,'.mat');
 load(ACS_DP03_data);
 tracts = table2array(ACS_DP03_data(:,2));
 
 % load Hazus data
-% this data is on the scale of census tracts
-% however, some census tracts can be missing
-% -
+% @ipekbensu: data on scale of census tracts
+% @ipekbensu: some census tracts can be missing
 
 surface_roughness = strcat(lower(StateAbbrev),'_surface_roughness.mat');
 load(surface_roughness);
@@ -47,42 +45,37 @@ tracts_Hazus = exposure_count.CensusTract;
 [tracts_exposure_count] = NN(StateAbbrev, tracts, tracts_Hazus, exposure_count_Hazus);
 
 % convert #bldg to #hsng
-% -
-
 % columns (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: hsng
+
 [exposure] = Bldg2Hsng(tracts_exposure_count,0);
 
 % compute exposure_1000SF_avg, exposure_1000USD_avg
-% -
-
 % columns (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: 1000 USD / hsng
+
 tracts_avg_1000USD = tracts_exposure_1000USD./exposure;
 
 % compute BldgFunc_RES_Case0, BldgFunc_RES_Case1
-% -
-
 % rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % columns (41): 50, 55,... 250 mph (peak gust)
 % pages (5): 0, 0.03, 0.35, 0.7, 1 m (roughness length)
 % units: fractions
+
 [BldgFunc_RES_Case0, BldgFunc_RES_Case1] = compute_BldgFunc_RES(StateAbbrev, RegionAbbrev);
 
 % estimate HsngScheme_count, HsngScheme_p, HsngScheme_pi
-% -
-
 % rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % columns (10): 1, 2,... 10 (HINCP bin)
 % units: hsng or fractions
-% pages represent different census tracts
+% @ipekbensu: pages represent different census tracts
+
 [HsngScheme_count, HsngScheme_p, HsngScheme_pi] = create_HsngScheme(StateAbbrev, StateFIPS);
 
 % estimate BldgScheme_count, BldgScheme_p, HsngInc_avg_1000USD
-% -
-
 % columns (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: bldg or fractions
+
 BldgScheme_count = zeros(size(tracts,1),size(HsngScheme_count,1));
 BldgScheme_p = zeros(size(tracts,1),size(HsngScheme_p,1));
 
@@ -111,7 +104,6 @@ end
 clear i
 
 % check errors
-% -
 
 tracts_avg_1000USD(isnan(tracts_avg_1000USD)) = 0;
 BldgScheme_count(isnan(BldgScheme_count)) = 0;
@@ -119,17 +111,20 @@ BldgScheme_p(isnan(BldgScheme_p)) = 0;
 HsngInc_avg_1000USD(isnan(HsngInc_avg_1000USD)) = 0;
 
 % compute building-specific WSRs
-% -
 
-[WSRR_input] = compute_WSRR_input();
-[WSR] = CFD_Cd_compute_WSR(Cd);
+WSR = sqrt(Cd/2);
+WSR(WSR<sqrt(1/2)) = sqrt(1/2);
+WSR(WSR>sqrt(4/2)) = sqrt(4/2);
+
+% rows (4): 0-.25, .25-.5, .5-.75, .75-1 (quartile)
+% columns (4): 1, 2, 3, 4 (directional severity)
+% pages (6): 1-1.5, 1.5-2.0,... 3.5-4 (Cd range)
+load('WSRR_input.mat');
 
 % compute building-specific EALs
-% information is on different scales
-% -
+% @ipekbensu: input on different scales
 
 % define ranges
-% -
 
 % units: NA (since drag coefficient)
 CFD_Cd_min = [1:0.5:3.5]';
@@ -139,8 +134,7 @@ CFD_Cd_max = [1.5:0.5:4]';
 surface_roughness_min = [0,0.03,0.35,0.7];
 surface_roughness_max = [0.03,0.35,0.7,1];
 
-% load inputs
-% -
+% load input
 
 bldg_WSRR = zeros(size(tract,1),size(WSRR_input,1),size(WSRR_input,2));
 bldg_surface_roughness = zeros(size(tract,1),size(tracts_surface_roughness,2));
@@ -250,16 +244,14 @@ end
 clear k
 
 % initialize loss_RES_Case0, loss_RES_Case1
-% -
-
-% columns (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% columns (8): RES1, RES2,... RES3F (Hazus bldg type)
 % pages (6): baseline, dir_1, dir_2, dir_3, dir_4, dir_avg
 % units: fractions (EAL / value)
+
 loss_RES_Case0 = zeros(size(tract,1),8,6);
 loss_RES_Case1 = zeros(size(tract,1),8,6);
 
 % compute loss_RES_Case0, loss_RES_Case1
-% -
 
 % rows (41): 50, 55,... 250 mph (peak gust)
 % units: mph
@@ -338,18 +330,16 @@ end
 clear j
 
 % initialize Case0_RES, Case1_RES
-% -
-
 % columns (1-8): RES1, RES2,... RES3F (Hazus bldg type)
 % columns (9): RES
 % unit: 1000USD / hsng
+
 Case0_RES_Hazus = zeros(size(tract,1),9);
 Case0_RES_New = zeros(size(tract,1),9);
 Case1_RES_Hazus = zeros(size(tract,1),9);
 Case1_RES_New = zeros(size(tract,1),9);
 
 % compute Case0_RES, Case1_RES
-% -
 
 Case0_RES_Hazus(:,1:8) = loss_RES_Case0(:,:,1);
 Case1_RES_Hazus(:,1:8) = loss_RES_Case1(:,:,1);
@@ -381,7 +371,6 @@ Case0_RES_New(:,1:8) = Case0_RES_New(:,1:8)./bldg_HsngInc_avg_1000USD;
 Case1_RES_New(:,1:8) = Case1_RES_New(:,1:8)./bldg_HsngInc_avg_1000USD;
 
 % check errors
-% -
 
 Case0_RES_Hazus(~isfinite(Case0_RES_Hazus)) = 0;
 Case1_RES_Hazus(~isfinite(Case1_RES_Hazus)) = 0;

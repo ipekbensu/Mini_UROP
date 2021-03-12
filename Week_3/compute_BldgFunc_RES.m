@@ -1,7 +1,6 @@
 function [BldgFunc_RES_Case0, BldgFunc_RES_Case1] = compute_BldgFunc_RES(StateAbbrev, RegionAbbrev)
 
 % load BldgFunc
-% -
 
 load('BldgFunc.mat')
 BldgID = BldgFunc.BldgID;
@@ -22,7 +21,7 @@ TerrainID = BldgFunc.TerrainID;
 % FuncID==7: Loss of use (days)
 % FuncID==8: Brick/wood debris (lbs/sf)
 % FuncID==9: Concrete/steel debris (lbs/sf)
-% later, choose 5 for bldg loss
+% @ipekbensu: choose 5 for bldg loss
 FuncID = BldgFunc.FuncID;
 
 % columns (41): 50, 55,... 250 mph (peak gust)
@@ -30,13 +29,12 @@ FuncID = BldgFunc.FuncID;
 BldgFunc = table2array(BldgFunc(:,5:45));
 
 % load BldgFunc_RES_BldgID
-% produced in spreadsheet
-% -
+% @ipekbensu: produced in spreadsheet
 
 load('BldgFunc_RES_BldgID.mat')
 
 % units: ID#
-% rows represent different structure
+% @ipekbensu: rows represent different structure
 RES_Case0_CONCRETE = table2array(BldgFunc_RES_BldgID(14:16,2));
 RES_Case0_MASONRY = table2array(BldgFunc_RES_BldgID(6:13,2));
 RES_Case0_MH = table2array(BldgFunc_RES_BldgID(23:27,2));
@@ -44,7 +42,7 @@ RES_Case0_STEEL = table2array(BldgFunc_RES_BldgID(17:22,2));
 RES_Case0_WOOD = table2array(BldgFunc_RES_BldgID(1:5,2));
 
 % units: ID#
-% rows represent different structure
+% @ipekbensu: rows represent different structure
 RES_Case1_CONCRETE = table2array(BldgFunc_RES_BldgID(14:16,3));
 RES_Case1_MASONRY = table2array(BldgFunc_RES_BldgID(6:13,3));
 RES_Case1_MH = table2array(BldgFunc_RES_BldgID(23:27,3));
@@ -52,13 +50,12 @@ RES_Case1_STEEL = table2array(BldgFunc_RES_BldgID(17:22,3));
 RES_Case1_WOOD = table2array(BldgFunc_RES_BldgID(1:5,3));
 
 % load BldgScheme_(state), BldgScheme_(region)_(material)
-% -
 
 BldgScheme = strcat('BldgScheme_',StateAbbrev,'1.mat');
 load(BldgScheme);
 BldgScheme = table2array(BldgScheme);
 
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: fractions
 RES_CONCRETE_frac = str2double(BldgScheme(1:8,5))/100;
 RES_MASONRY_frac = str2double(BldgScheme(1:8,4))/100;
@@ -69,17 +66,17 @@ RES_WOOD_frac = str2double(BldgScheme(1:8,3))/100;
 BldgScheme_CONCRETE = strcat('BldgScheme_',RegionAbbrev,'_CONCRETE.mat');
 load(BldgScheme_CONCRETE);
 BldgScheme_CONCRETE = table2array(BldgScheme_CONCRETE);
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: fractions
-% columns represent different structure
+% @ipekbensu: columns represent different structure
 RES_CONCRETE = str2double(BldgScheme_CONCRETE(1:8,3:5))/100;
 
 BldgScheme_MASONRY = strcat('BldgScheme_',RegionAbbrev,'_MASONRY.mat');
 load(BldgScheme_MASONRY)
 BldgScheme_MASONRY = table2array(BldgScheme_MASONRY);
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: fractions
-% columns represent different structure
+% @ipekbensu: columns represent different structure
 RES_MASONRY = str2double(horzcat(...
     BldgScheme_MASONRY(1:8,3:7),...
     BldgScheme_MASONRY(1:8,11:13)...
@@ -88,31 +85,30 @@ RES_MASONRY = str2double(horzcat(...
 BldgScheme_MH = strcat('BldgScheme_',RegionAbbrev,'_MH.mat');
 load(BldgScheme_MH)
 BldgScheme_MH = table2array(BldgScheme_MH);
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: fractions
-% columns represent different structure
+% @ipekbensu: columns represent different structure
 RES_MH = str2double(BldgScheme_MH(1:8,3:7))/100;
 
 BldgScheme_STEEL = strcat('BldgScheme_',RegionAbbrev,'_STEEL.mat');
 load(BldgScheme_STEEL)
 BldgScheme_STEEL = table2array(BldgScheme_STEEL);
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: fractions
-% columns represent different structure
+% @ipekbensu: columns represent different structure
 RES_STEEL = str2double(BldgScheme_STEEL(1:8,3:8))/100;
 
 BldgScheme_WOOD = strcat('BldgScheme_',RegionAbbrev,'_WOOD.mat');
 load(BldgScheme_WOOD)
 BldgScheme_WOOD = table2array(BldgScheme_WOOD);
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % units: fractions
-% columns represent different structure
+% @ipekbensu: columns represent different structure
 RES_WOOD = str2double(BldgScheme_WOOD(1:8,3:7))/100;
 
 % initialize BldgFunc_RES_Case0, BldgFunc_RES_Case1
-% -
 
-% rows (8): RES1, RES2,... RES3F (HAZUS bldg type)
+% rows (8): RES1, RES2,... RES3F (Hazus bldg type)
 % columns (41): 50, 55,... 250 mph (peak gust)
 % pages (5): 0, 0.03, 0.35, 0.7, 1 m (roughness length)
 % units: fractions
@@ -120,12 +116,11 @@ BldgFunc_RES_Case0 = zeros(8,41,5);
 BldgFunc_RES_Case1 = zeros(8,41,5);
 
 % compute BldgFunc_RES_Case0_(material), BldgFunc_RES_Case1_(material)
-% -
 
 % columns (41): 50, 55,... 250 mph (peak gust)
 % pages (5): 0, 0.03, 0.35, 0.7, 1 m (roughness length)
 % units: fractions
-% rows represent different structures
+% @ipekbensu: rows represent different structures
 BldgFunc_RES_Case0_CONCRETE = zeros(3,41,5);
 BldgFunc_RES_Case0_MASONRY = zeros(8,41,5);
 BldgFunc_RES_Case0_MH = zeros(5,41,5);
@@ -135,7 +130,7 @@ BldgFunc_RES_Case0_WOOD = zeros(5,41,5);
 % columns (41): 50, 55,... 250 mph (peak gust)
 % pages (5): 0, 0.03, 0.35, 0.7, 1 m (roughness length)
 % units: fractions
-% rows represent different structures
+% @ipekbensu: rows represent different structure
 BldgFunc_RES_Case1_CONCRETE = zeros(3,41,5);
 BldgFunc_RES_Case1_MASONRY = zeros(8,41,5);
 BldgFunc_RES_Case1_MH = zeros(5,41,5);
@@ -210,7 +205,6 @@ end
 clear k
 
 % compute BldgFunc_RES_Case0, BldgFunc_RES_Case1
-% -
 
 for k=1:5
     
@@ -232,7 +226,6 @@ end
 clear k
 
 % catch errors
-% -
 
 for k=1:5
     

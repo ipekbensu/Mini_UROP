@@ -1,16 +1,14 @@
 function [WSR] = z0_compute_WSR(surface_roughness)
 
 % define RefHeight
-% -
-
 % units: m
+
 RefHeight = 10;
 
 % load scraped functions
-% -
+% @ipekbensu: x in m (z0)
+% @ipekbensu: y in WSR
 
-% x in m (z0)
-% y in WSR
 x_3m = [0.001009521
     0.001997154
     0.002973384
@@ -364,10 +362,9 @@ y_100m = [1.054368932
     0.891262136];
 
 % fit scraped functions
-% -
-
 % columns (3): m2, m1, b (parameters)
 % units: NA
+
 fit_3m = polyfit(log10(x_3m),y_3m,2);
 fit_5m = polyfit(log10(x_5m),y_5m,2);
 fit_10m = polyfit(log10(x_10m),y_10m,2);
@@ -376,7 +373,6 @@ fit_50m = polyfit(log10(x_50m),y_50m,2);
 fit_100m = polyfit(log10(x_100m),y_100m,2);
 
 % compute WSR
-% -
 
 if (RefHeight==3)
     WSR = fit_3m(1)*(log10(surface_roughness).^2)+fit_3m(2)*log10(surface_roughness)+fit_3m(3);

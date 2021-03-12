@@ -1,15 +1,13 @@
 function [PUMS_count] = PUMS_estimate_count(BLD, HINCP)
 
 % initiliaze PUMS_count
-% -
-
 % rows (9): 1, 2,... 9 (BLD)
 % columns (10): 1, 2,... 10 (HINCP bin)
 % units: hsng
+
 PUMS_count = zeros(9,10);
 
 % estimate PUMS_count
-% -
 
 for i=1:9
     

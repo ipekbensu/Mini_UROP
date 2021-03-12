@@ -1,34 +1,30 @@
 function [IPF_p] = PUMS_run_IPF(PUMS_p, tract, bld, hincp)
 
 % define #trials
-% -
 
 trials = 1000;
 trial = 0;
 quit = 0;
 
 % adjust PUMS_p
-% -
-
 % "20+ units" instead of "50+ units"
 % rows (8): 1, 2,... 8 (BLD)
 % columns (10): 1, 2,... 10 (HINCP bin)
 % units: fractions
+
 PUMS_p_adj = zeros(8,10);
 PUMS_p_adj(1:7,:) = PUMS_p(1:7,:);
 PUMS_p_adj(8,:) = PUMS_p(8,:)+PUMS_p(9,:);
 
 % initialize IPF_p
-% -
-
 % "20+ units" instead of "50+ units"
 % rows (8): 1, 2,... 8 (BLD)
 % columns (10): 1, 2,... 10 (HINCP bin)
 % units: fractions
+
 IPF_p = PUMS_p_adj;
 
 % estimate IPF_p
-% -
 
 p_bld = bld(tract,:)/sum(bld(tract,:));
 p_bld(isnan(p_bld)) = 0;
@@ -72,7 +68,6 @@ while (trial<trials && quit<trials)
 end
 
 % catch nonconvergence
-% -
 
 if (trial==trials)
     IPF_p = PUMS_p_adj;

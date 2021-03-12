@@ -1,23 +1,17 @@
 function [] = run(StateAbbrev, StateFIPS, RegionAbbrev, buildings_Cd, part)
 
 % assign building information
-% -
 
 tract = buildings_Cd.tract;
-if (iscell(tract))
-    tract = str2num(cell2mat(tract));
-end
 lat = buildings_Cd.lat;
 lon = buildings_Cd.lon;
 Cd = buildings_Cd.Cd;
 
 % compute building-specific EALs
-% -
 
 [EAL, PerValue_EAL, PerInc_EAL] = compute_EAL(tract, Cd, StateAbbrev, StateFIPS, RegionAbbrev);
 
 % save building-specific EALs
-% -
 
 buildings_EAL = array2table(horzcat(tract,lat,lon,Cd,EAL),...
     'VariableNames',{'tract','lat','lon','Cd',...

@@ -1,7 +1,6 @@
 function [HsngScheme_count, HsngScheme_p, HsngScheme_pi] = create_HsngScheme(StateAbbrev, StateFIPS)
 
 % load PUMS_data
-% -
 
 PUMS_data = strcat('PSAM_h',StateFIPS,'.mat');
 load(PUMS_data);
@@ -16,7 +15,6 @@ if (ischar(HINCP)||isstring(HINCP))
 end
 
 % load ACS_DP03_data, ACS_DP04_data
-% -
 
 ACS_DP03_data = strcat('ACS_DP03_',StateFIPS,'.mat');
 load(ACS_DP03_data);
@@ -48,7 +46,6 @@ end
 clear j
 
 % load Hazus data
-% -
 
 exposure_count = strcat(lower(StateAbbrev),'_exposure_count.mat');
 load(exposure_count);
@@ -68,7 +65,6 @@ tracts_Hazus = exposure_count.CensusTract;
 [tracts_exposure_count] = NN(StateAbbrev, tracts, tracts_Hazus, exposure_count_Hazus);
 
 % initialize HsngScheme
-% -
 
 % RES1: BLD==2 OR 3
 % RES2: BLD==1
@@ -87,7 +83,6 @@ HsngScheme_p = zeros(8,10,size(tracts,1));
 HsngScheme_pi = zeros(8,10,size(tracts,1));
 
 % adjust and filter PUMS data
-% -
 
 HINCP = HINCP.*ADJINC/1000000;
 
@@ -101,7 +96,6 @@ HINCP = HINCP(BLD~=10);
 BLD = BLD(BLD~=10);
 
 % estimate PUMS_count, PUMS_p, PUMS_pi
-% -
 
 % rows (8): 1, 2,... 8 (BLD)
 % columns (10): 1, 2,... 10 (HINCP bin)
@@ -111,7 +105,6 @@ BLD = BLD(BLD~=10);
 [PUMS_pi] = PUMS_estimate_pi(PUMS_p);
 
 % estimate IPF_count, IPF_p, IPF_pi, HsngScheme_count, HsngScheme_p, HsngScheme_pi
-% -
 
 % "20+ units" instead of "50+ units"
 % rows (8): 1, 2,... 8 (BLD)
