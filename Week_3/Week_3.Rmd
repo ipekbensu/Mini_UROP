@@ -31,7 +31,6 @@ In one folder collect:
 Step 1: Running the code  
 
 - In "Command window" (bottom of page), run "index.m"  
-- **Similar to last week, you'll need to adjust the "for" loop for your study area.**  
 
 Step 2: Sharing the results  
 
