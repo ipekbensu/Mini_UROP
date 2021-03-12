@@ -46,10 +46,10 @@ Step 3: Extracting latitude
 
 - "Open field calculator" (abacus icon)  
 - "Create new field"  
-- Fill in "Output field name": lat (important later on)  
+- Fill in "Output field name": lat  
 - Fill in "Output field type": "Decimal number (real)"  
 - Fill in "Output field length": 10 (default)  
-- Fill in "Precision": 8 (important later on)  
+- Fill in "Precision": 8  
 - Fill in "Expression": y($geometry)  
 - "Okay" (might take a moment)  
 
@@ -57,10 +57,10 @@ Step 4: Extracting longitude
 
 - "Open field calculator"  
 - "Create new field"  
-- Fill in "Output field name": lon (important later on)  
+- Fill in "Output field name": lon  
 - Fill in "Output field type": "Decimal number (real)"  
 - Fill in "Output field length": 10 (default)  
-- Fill in "Precision": 8 (important later on)  
+- Fill in "Precision": 8  
 - Fill in "Expression": x($geometry)  
 - "Okay" (might take a moment)  
 
@@ -68,10 +68,10 @@ Step 5: Extracting footprint area
 
 - "Open field calculator"  
 - "Create new field"  
-- Fill in "Output field name": area (important later on)  
+- Fill in "Output field name": area  
 - Fill in "Output field type": "Decimal number (real)"  
 - Fill in "Output field length": 10 (default)  
-- Fill in "Precision": 8 (important later on)  
+- Fill in "Precision": 8  
 - Fill in "Expression": $area   
 - "Okay" (might take a moment)  
 
@@ -102,8 +102,6 @@ Step 7: Creating .shp layer
 - Look up FIPS code (e.g., for Florida it's 12)  
 - From File Explorer, drag and drop census tract .shp file  
 
-**You can use index.m to look up FIPS code.**
-
 Step 8: Assigning census tract (by spatial join)  
 
 - "Vector" > "Data management tools" > "Join attributes by location"  
@@ -123,8 +121,6 @@ Step 9: Exporting .csv layer
 - Fill in "File name": Select path from File Explorer  
 - **For ease, use the same naming convention as Microsoft.**  
 - "Okay" (might take a moment)  
-
-**Note that Steps 1-9 could be automated using Python! (How?)**
 
 ### To convert .csv to .mat:  
 
@@ -153,20 +149,11 @@ Step 12: Navigating to correct working directory
 - Download code: "city_texture_cd_model.mat", "run.mat", "index.m"  
 - From "Current folder" (upper LHS), copy-past your .mat files to the folder with "city_texture_cd_model.mat"  
 
-Step 13: Updating the code  
-
-- "Current folder" (upper LHS) > "index.m" (double-click to open)  
-- Use CTRL+F to find "Mini_UROP" comments  
-- Update the code if necessary  
-- "Current folder" (upper LHS) > "run.mat" (double-click to open)  
-- Use CTRL+F to find "Mini_UROP" comments  
-- Update the code if necessary  
-
-Step 14: Running the code  
+Step 13: Running the code  
 
 - In "Command window" (bottom of page), run "index.m"  
 
-Step 15: Sharing the results  
+Step 14: Sharing the results  
 
 - **You'll have one .mat and one .csv file for drag coefficients in each state.**  
 - Upload to Dropbox :)  

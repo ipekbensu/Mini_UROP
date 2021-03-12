@@ -429,13 +429,13 @@ summary {
 </li>
 <li>“Create new field”<br />
 </li>
-<li>Fill in “Output field name”: lat (important later on)<br />
+<li>Fill in “Output field name”: lat<br />
 </li>
 <li>Fill in “Output field type”: “Decimal number (real)”<br />
 </li>
 <li>Fill in “Output field length”: 10 (default)<br />
 </li>
-<li>Fill in “Precision”: 8 (important later on)<br />
+<li>Fill in “Precision”: 8<br />
 </li>
 <li>Fill in “Expression”: y($geometry)<br />
 </li>
@@ -447,13 +447,13 @@ summary {
 </li>
 <li>“Create new field”<br />
 </li>
-<li>Fill in “Output field name”: lon (important later on)<br />
+<li>Fill in “Output field name”: lon<br />
 </li>
 <li>Fill in “Output field type”: “Decimal number (real)”<br />
 </li>
 <li>Fill in “Output field length”: 10 (default)<br />
 </li>
-<li>Fill in “Precision”: 8 (important later on)<br />
+<li>Fill in “Precision”: 8<br />
 </li>
 <li>Fill in “Expression”: x($geometry)<br />
 </li>
@@ -465,13 +465,13 @@ summary {
 </li>
 <li>“Create new field”<br />
 </li>
-<li>Fill in “Output field name”: area (important later on)<br />
+<li>Fill in “Output field name”: area<br />
 </li>
 <li>Fill in “Output field type”: “Decimal number (real)”<br />
 </li>
 <li>Fill in “Output field length”: 10 (default)<br />
 </li>
-<li>Fill in “Precision”: 8 (important later on)<br />
+<li>Fill in “Precision”: 8<br />
 </li>
 <li>Fill in “Expression”: $area<br />
 </li>
@@ -518,7 +518,6 @@ summary {
 </li>
 <li>From File Explorer, drag and drop census tract .shp file</li>
 </ul>
-<p><strong>You can use index.m to look up FIPS code.</strong></p>
 <p>Step 8: Assigning census tract (by spatial join)</p>
 <ul>
 <li>“Vector” &gt; “Data management tools” &gt; “Join attributes by location”<br />
@@ -550,7 +549,6 @@ summary {
 </li>
 <li>“Okay” (might take a moment)</li>
 </ul>
-<p><strong>Note that Steps 1-9 could be automated using Python! (How?)</strong></p>
 </div>
 <div id="to-convert-.csv-to-.mat" class="section level3">
 <h3>To convert .csv to .mat:</h3>
@@ -592,25 +590,11 @@ summary {
 </li>
 <li>From “Current folder” (upper LHS), copy-past your .mat files to the folder with “city_texture_cd_model.mat”</li>
 </ul>
-<p>Step 13: Updating the code</p>
-<ul>
-<li>“Current folder” (upper LHS) &gt; “index.m” (double-click to open)<br />
-</li>
-<li>Use CTRL+F to find “Mini_UROP” comments<br />
-</li>
-<li>Update the code if necessary<br />
-</li>
-<li>“Current folder” (upper LHS) &gt; “run.mat” (double-click to open)<br />
-</li>
-<li>Use CTRL+F to find “Mini_UROP” comments<br />
-</li>
-<li>Update the code if necessary</li>
-</ul>
-<p>Step 14: Running the code</p>
+<p>Step 13: Running the code</p>
 <ul>
 <li>In “Command window” (bottom of page), run “index.m”</li>
 </ul>
-<p>Step 15: Sharing the results</p>
+<p>Step 14: Sharing the results</p>
 <ul>
 <li><strong>You’ll have one .mat and one .csv file for drag coefficients in each state.</strong><br />
 </li>
